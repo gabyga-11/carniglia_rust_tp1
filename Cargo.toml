@@ -1,5 +1,5 @@
 [package]
-name = "rustTP1Carniglia"
+name = "rust_tp1_carniglia"
 version = "0.1.0"
 edition = "2021"
 
