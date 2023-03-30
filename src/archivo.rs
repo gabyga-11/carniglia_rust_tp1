@@ -33,11 +33,11 @@ impl FileHandler{
 
 
         let string_prueba = String::from("_ _ _ _ _ _ _ _"); //TODO: VER ACA
-        println!("{:?}",string_prueba.matches("_").count());
+        println!("{:?}",string_prueba.matches('_').count());
         //VALIDACIONES
-        //1 validacion:
-        //debe haber siempre 7 " "   y ademas 6,7,8 "_"   
-        //ademas,iterar y verificar que los espacios esten en las posiciones impares de iteracion
+        
+        
+        Self::contenido_archivo_es_correcto(&contenido)?;
 
         //OJO QUE DEBE ESTAR SIEMPRE INTERCALADOS LOS "_" CON " "
 
@@ -45,10 +45,11 @@ impl FileHandler{
         //DEBE HAber un total de 62 guiones -> hay mas de 2 piezas en el tablero
         //que haya SOLO 2 caracteres, que uno sea minuscula y el otro mayuscula
 
-        let mut tablero = [[' ' as char; 8]; 8];
+        let mut tablero = [[' '; 8]; 8];
+        
         for (indice_linea,linea) in contenido.lines().enumerate(){
             
-            for (indice_letra,letra) in linea.split(" ").enumerate(){
+            for (indice_letra,letra) in linea.split(' ').enumerate(){
                 
                 tablero[indice_linea][indice_letra] = letra.chars().next().unwrap_or_default();
                 print!("{} ",tablero[indice_linea][indice_letra]);
@@ -80,9 +81,9 @@ impl FileHandler{
             }
             Err(error_obtenido) => {
                 if error_obtenido.kind() == ErrorKind::NotFound{
-                    Err(TypeError::ErrorNombreDeArchivoInvalido)
+                    Err(TypeError::NombreDeArchivoInvalido)
                 }else{
-                    Err(TypeError::ErrorDeAperturaDeArchivo)
+                    Err(TypeError::AperturaDeArchivoInvalida)
                 }
                 
             }
@@ -90,6 +91,46 @@ impl FileHandler{
         resultado_final
     }
 
+
+    //1 validacion:
+        //debe haber siempre 7 " "   y ademas 6,7,8 "_"    OK
+        //ademas,iterar y verificar que los espacios esten en las posiciones impares de iteracion
+        //ademas, ver que sean 8 iteraciones OK
+    fn contenido_archivo_es_correcto(contenido_archivo: &str) -> Result<(), TypeError>{
+
+        if contenido_archivo.lines().count() != 8 {
+            return Err(TypeError::TamanioDeTableroIncorrecto);
+        }
+        else{
+            let mut i = 0;
+            let mut j = 0;
+
+            
+            for (indice_linea,linea) in contenido_archivo.lines().enumerate(){
+            
+                if linea.matches(' ').count() != 7 {
+                    println!("{:?}",linea);
+                    return Err(TypeError::ArchivoConFormatoDeEspaciosIncorrecta);
+                }else if linea.matches('_').count() < 6 || linea.matches('_').count() > 8{
+                    println!("{:?}",linea);
+                    return Err(TypeError::ArchivoConCantidadDeCasillerosVaciosIncorrecta);
+                }
+
+                for (indice_letra,letra) in linea.split(' ').enumerate(){
+                    
+                    //tablero[indice_linea][indice_letra] = letra.chars().next().unwrap_or_default();
+                    //print!("{} ",tablero[indice_linea][indice_letra]);
+                    //SI ESTOY EN ITERACION IMPAR, REVISAR QUE SEAN ESPACIOS !!!!!!!!!!!!!!!
+
+
+                }
+            }
+            Ok(())
+        }
+
+
+        
+    }
 
 
 

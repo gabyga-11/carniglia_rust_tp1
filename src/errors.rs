@@ -3,9 +3,12 @@ use std::process::exit;
 #[derive(Debug)]
 pub enum TypeError{
     //ErrorPath,
-    ErrorNombreDeArchivoInvalido,
+    NombreDeArchivoInvalido,
     //ErrorArgs,
-    ErrorDeAperturaDeArchivo,
+    AperturaDeArchivoInvalida,
+    TamanioDeTableroIncorrecto,
+    ArchivoConFormatoDeEspaciosIncorrecta,
+    ArchivoConCantidadDeCasillerosVaciosIncorrecta,
 }
 
 pub fn catch(tipo: TypeError){
