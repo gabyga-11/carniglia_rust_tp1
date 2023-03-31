@@ -9,6 +9,7 @@ pub enum TypeError{
     TamanioDeTableroIncorrecto,
     ArchivoConFormatoDeEspaciosIncorrecta,
     ArchivoConCantidadDeCasillerosVaciosIncorrecta,
+    ArchivoConFormatoDeEspaciosImparesIncorrecta,
 }
 
 pub fn catch(tipo: TypeError){

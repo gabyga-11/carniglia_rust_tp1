@@ -11,13 +11,7 @@ fn main() {
     //println!("{:?}",dondeta.0);
     //println!("{:?}",file!());
 
-    let archivo = archivo::FileHandler::new(std::env::args().collect());
-
-    let resultado_lectura = archivo.leer();
-    match resultado_lectura {
-        Ok(linea) => linea,
-        Err(resultado_errores) => errors::catch(resultado_errores)
-    }
+    let tablero = procesar_lectura();
 
     //si no hay args[1], cortar ejecucion
 
@@ -52,6 +46,17 @@ fn main() {
 }
 
 
+pub fn procesar_lectura() -> [[char; 8]; 8]{
+    let mut archivo = archivo::FileHandler::new(std::env::args().collect());
+
+    let resultado_lectura = archivo.leer();
+    match resultado_lectura {
+        Ok(linea) => linea,
+        Err(resultado_errores) => errors::catch(resultado_errores)
+    }
+    let tablero = archivo.dar_tablero_procesado();
+    tablero
+}
 
 
 

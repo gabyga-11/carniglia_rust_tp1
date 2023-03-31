@@ -3,6 +3,7 @@ use crate::errors::TypeError;
 
 pub struct FileHandler {
     path: String,
+    tablero: [[char; 8]; 8],
 }
 
 impl FileHandler{
@@ -13,11 +14,11 @@ impl FileHandler{
             exit(0);
         }
         let pathfile = format!("{}{}","src/".to_owned(),x[1]);
-        FileHandler{path: pathfile}
+        FileHandler{path: pathfile, tablero: [[' '; 8]; 8]}
     }
 
 
-    pub fn leer(&self) -> Result<(), TypeError > {
+    pub fn leer(&mut self) -> Result<(), TypeError > {
 
     
         //let path = self.generar_path(self.path.as_str())?;
@@ -32,8 +33,8 @@ impl FileHandler{
 
 
 
-        let string_prueba = String::from("_ _ _ _ _ _ _ _"); //TODO: VER ACA
-        println!("{:?}",string_prueba.matches('_').count());
+        //let string_prueba = String::from("_ _ _ _ _ _ _ _"); //TODO: VER ACA
+        //println!("{:?}",string_prueba.matches('_').count());
         //VALIDACIONES
         
         
@@ -45,14 +46,14 @@ impl FileHandler{
         //DEBE HAber un total de 62 guiones -> hay mas de 2 piezas en el tablero
         //que haya SOLO 2 caracteres, que uno sea minuscula y el otro mayuscula
 
-        let mut tablero = [[' '; 8]; 8];
+        //let mut tablero = [[' '; 8]; 8];
         
         for (indice_linea,linea) in contenido.lines().enumerate(){
             
             for (indice_letra,letra) in linea.split(' ').enumerate(){
                 
-                tablero[indice_linea][indice_letra] = letra.chars().next().unwrap_or_default();
-                print!("{} ",tablero[indice_linea][indice_letra]);
+                self.tablero[indice_linea][indice_letra] = letra.chars().next().unwrap_or_default();
+                print!("{} ",self.tablero[indice_linea][indice_letra]);
             }
             println!("\n");
         }
@@ -102,27 +103,25 @@ impl FileHandler{
             return Err(TypeError::TamanioDeTableroIncorrecto);
         }
         else{
-            let mut i = 0;
-            let mut j = 0;
-
             
-            for (indice_linea,linea) in contenido_archivo.lines().enumerate(){
-            
+            for linea in contenido_archivo.lines(){
+                //println!("{:?}", linea);
                 if linea.matches(' ').count() != 7 {
-                    println!("{:?}",linea);
+                    //println!("{:?}",linea);
                     return Err(TypeError::ArchivoConFormatoDeEspaciosIncorrecta);
                 }else if linea.matches('_').count() < 6 || linea.matches('_').count() > 8{
-                    println!("{:?}",linea);
+                    //println!("{:?}",linea);
                     return Err(TypeError::ArchivoConCantidadDeCasillerosVaciosIncorrecta);
                 }
 
-                for (indice_letra,letra) in linea.split(' ').enumerate(){
-                    
-                    //tablero[indice_linea][indice_letra] = letra.chars().next().unwrap_or_default();
-                    //print!("{} ",tablero[indice_linea][indice_letra]);
-                    //SI ESTOY EN ITERACION IMPAR, REVISAR QUE SEAN ESPACIOS !!!!!!!!!!!!!!!
+                
+                for (indice_letra,letra) in linea.char_indices(){
 
-
+                    if indice_letra % 2 != 0 && letra != ' '{
+                        //println!("{:?}", indice_letra);
+                        //println!("{:?}", letra);
+                        return Err(TypeError::ArchivoConFormatoDeEspaciosImparesIncorrecta);
+                    }
                 }
             }
             Ok(())
@@ -132,6 +131,8 @@ impl FileHandler{
         
     }
 
-
+    pub fn dar_tablero_procesado(self) -> [[char; 8]; 8]{
+        self.tablero
+    }
 
 }
