@@ -1,13 +1,11 @@
-mod ficha;
 mod archivo;
 mod errors;
 mod juego;
 use errors::TypeError;
-use ficha::funcion_prueba;
 
 fn main() {
     println!("Hello, mundo!");
-    funcion_prueba();
+    
 
     //let dondeta = ficha::Posicion(3,4);
     //println!("{:?}",dondeta.0);
@@ -15,6 +13,9 @@ fn main() {
 
     let tablero = procesar_lectura();
     analizar_tablero(&tablero);
+
+
+
     println!("in main");
     for i in 0..8{         
         for j in 0..8{

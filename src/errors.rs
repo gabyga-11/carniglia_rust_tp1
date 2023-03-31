@@ -16,6 +16,8 @@ pub enum TypeError{
     HayDosPiezasNegras,
 }
 
+//TODO: Implementar match con mensaje mas amigable
+
 pub fn catch(tipo: TypeError){
     println!("ERROR: {:?}",tipo);
     exit(-1);
