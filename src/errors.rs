@@ -4,12 +4,16 @@ use std::process::exit;
 pub enum TypeError{
     //ErrorPath,
     NombreDeArchivoInvalido,
-    //ErrorArgs,
+    NoSeIngresoArgumentoValidoPorConsola,
     AperturaDeArchivoInvalida,
     TamanioDeTableroIncorrecto,
     ArchivoConFormatoDeEspaciosIncorrecta,
     ArchivoConCantidadDeCasillerosVaciosIncorrecta,
     ArchivoConFormatoDeEspaciosImparesIncorrecta,
+    CantidadDePiezasIncorrecta,
+    PiezaInexistenteEnAjedrez,
+    HayDosPiezasBlancas,
+    HayDosPiezasNegras,
 }
 
 pub fn catch(tipo: TypeError){

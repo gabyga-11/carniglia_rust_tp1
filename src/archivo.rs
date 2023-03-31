@@ -27,9 +27,14 @@ impl FileHandler{
 
 
 
-        //for linea in contenido.lines(){
-          //  println!("El contenido es {}",linea);
-        //}
+        //contenido.find(char::is_alphabetic);
+        //println!("{:?}",contenido.matches(char::is_alphabetic).count());
+
+
+
+
+
+
 
 
 
@@ -39,12 +44,11 @@ impl FileHandler{
         
         
         Self::contenido_archivo_es_correcto(&contenido)?;
+        
 
         //OJO QUE DEBE ESTAR SIEMPRE INTERCALADOS LOS "_" CON " "
 
-        //2 validacion
-        //DEBE HAber un total de 62 guiones -> hay mas de 2 piezas en el tablero
-        //que haya SOLO 2 caracteres, que uno sea minuscula y el otro mayuscula
+        
 
         //let mut tablero = [[' '; 8]; 8];
         
@@ -53,9 +57,9 @@ impl FileHandler{
             for (indice_letra,letra) in linea.split(' ').enumerate(){
                 
                 self.tablero[indice_linea][indice_letra] = letra.chars().next().unwrap_or_default();
-                print!("{} ",self.tablero[indice_linea][indice_letra]);
+                //print!("{} ",self.tablero[indice_linea][indice_letra]);
             }
-            println!("\n");
+            //println!("\n");
         }
 
         Ok(())
@@ -76,7 +80,7 @@ impl FileHandler{
     fn leer_archivo_completo(&self, filepath: &str) -> Result<String, TypeError> {
         println!("{:?}",filepath);
         let archivo_resultado = fs::read_to_string(filepath);
-        let resultado_final = match archivo_resultado {
+        match archivo_resultado {
             Ok(archivo) => {
                 Ok(archivo)
             }
@@ -88,8 +92,7 @@ impl FileHandler{
                 }
                 
             }
-        };
-        resultado_final
+        }
     }
 
 
@@ -97,10 +100,11 @@ impl FileHandler{
         //debe haber siempre 7 " "   y ademas 6,7,8 "_"    OK
         //ademas,iterar y verificar que los espacios esten en las posiciones impares de iteracion
         //ademas, ver que sean 8 iteraciones OK
+        //DEBE HAber un total de 62 guiones -> hay mas de 2 piezas en el tablero OK
     fn contenido_archivo_es_correcto(contenido_archivo: &str) -> Result<(), TypeError>{
 
         if contenido_archivo.lines().count() != 8 {
-            return Err(TypeError::TamanioDeTableroIncorrecto);
+            Err(TypeError::TamanioDeTableroIncorrecto)
         }
         else{
             
@@ -112,6 +116,8 @@ impl FileHandler{
                 }else if linea.matches('_').count() < 6 || linea.matches('_').count() > 8{
                     //println!("{:?}",linea);
                     return Err(TypeError::ArchivoConCantidadDeCasillerosVaciosIncorrecta);
+                }else if contenido_archivo.matches('_').count() != 62 {
+                    return Err(TypeError::CantidadDePiezasIncorrecta);
                 }
 
                 

@@ -1,6 +1,8 @@
 mod ficha;
 mod archivo;
 mod errors;
+mod juego;
+use errors::TypeError;
 use ficha::funcion_prueba;
 
 fn main() {
@@ -12,6 +14,16 @@ fn main() {
     //println!("{:?}",file!());
 
     let tablero = procesar_lectura();
+    analizar_tablero(&tablero);
+    println!("in main");
+    for i in 0..8{         
+        for j in 0..8{
+            print!("{} ",tablero[i][j]);
+        }
+        println!("\n");
+    }
+
+
 
     //si no hay args[1], cortar ejecucion
 
@@ -50,16 +62,19 @@ pub fn procesar_lectura() -> [[char; 8]; 8]{
     let mut archivo = archivo::FileHandler::new(std::env::args().collect());
 
     let resultado_lectura = archivo.leer();
-    match resultado_lectura {
-        Ok(linea) => linea,
-        Err(resultado_errores) => errors::catch(resultado_errores)
-    }
-    let tablero = archivo.dar_tablero_procesado();
-    tablero
+    main_match(resultado_lectura);
+
+    archivo.dar_tablero_procesado()
 }
 
+pub fn analizar_tablero(tablero: &[[char; 8]; 8]){
+    let analisis_piezas = juego::estan_las_piezas_en(tablero);
+    main_match(analisis_piezas);
+}
 
-
+pub fn main_match(handler: Result<(), TypeError>){
+    if let Err(handler_error) = handler { errors::catch(handler_error) }
+}
 /* 
 pub fn generic_match(resultadoHandler: Result<T,E>) -> T {
     match resultadoHandler {
