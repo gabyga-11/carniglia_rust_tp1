@@ -6,7 +6,7 @@ pub mod peon;
 pub mod torre;
 use self::{rey::Rey, dama::Dama, alfil::Alfil, caballo::Caballo, peon::Peon, torre::Torre};
 
-#[derive(Debug,Clone,Copy)]
+#[derive(Debug,Clone,Copy,PartialEq)]
 pub enum Color{
     Blanco,
     Negro,
@@ -37,7 +37,7 @@ impl PiezaAjedrez{
     }
 
 
-    pub fn posicion(&self) -> (usize,usize) {
+    pub fn posicion(&self) -> (i16,i16) {
         match self {
             Self::Rey (pieza_rey) => { pieza_rey.dar_posicion()}
             Self::Dama (pieza_reina) => {pieza_reina.dar_posicion()}
@@ -51,6 +51,6 @@ impl PiezaAjedrez{
 }
 
 pub trait AnalisisAtaque{
-    fn puedo_atacar_enemigo(&self, posicion_contrincante: (usize, usize)) -> bool;
-    fn dar_posicion(self) -> (usize, usize);
+    fn puedo_atacar_enemigo(&self, posicion_contrincante: (i16, i16)) -> bool;
+    fn dar_posicion(self) -> (i16, i16);
 }

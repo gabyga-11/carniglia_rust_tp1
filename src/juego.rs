@@ -1,5 +1,3 @@
-use std::env::consts::FAMILY;
-
 use crate::{errors::TypeError, juego::piezas::{dama::Dama, alfil::Alfil, caballo::Caballo, torre::Torre, peon::Peon, Color}};
 
 
@@ -10,6 +8,7 @@ use piezas::rey::Rey;
 //2 validacion
 //que haya SOLO 2 caracteres, que uno sea minuscula y el otro mayuscula
 
+const CHARS_AJEDREZ: &str = "RDACTPrdactp";
 
 pub struct Juego{
     pieza_blanca:  piezas::PiezaAjedrez,
@@ -26,7 +25,7 @@ impl Juego{
 
     pub fn definir_piezas_en_tablero(&mut self) -> Result<(), TypeError>{
 
-        let (mut i , mut j  )  = (0,0);
+        let (mut i, mut j) = (0,0);
         let mut hay_dos_piezas = true;
         let mut hay_pieza_ajedrez = (false,false); //BLANCO NEGRO
         let tablero = self.tablero;
@@ -34,12 +33,12 @@ impl Juego{
 
         while i<8 && hay_dos_piezas{
             while j<8 && hay_dos_piezas{
-                //print!("{} ",tablero[i][j]);
-                if tablero[i][j].is_alphabetic() && !("RDACTPrdactp".contains(tablero[i][j])) {
+                
+                if tablero[i][j].is_alphabetic() && !(CHARS_AJEDREZ.contains(tablero[i][j])) {
                     hay_dos_piezas = false;
-                }else if "RDACTPrdactp".contains(tablero[i][j]){
+                }else if CHARS_AJEDREZ.contains(tablero[i][j]){
                     if tablero[i][j].is_lowercase() { hay_pieza_ajedrez.0 = true } else { hay_pieza_ajedrez.1 = true };
-                    self.cargar_pieza(&tablero[i][j],i,j);
+                    self.cargar_pieza(&tablero[i][j],i16::try_from(i).unwrap_or_default(),i16::try_from(j).unwrap_or_default());
                 }
                 j += 1;
             }
@@ -51,8 +50,7 @@ impl Juego{
     }
 
 
-    pub fn cargar_pieza(&mut self, char_pieza: &char, fila: usize, col: usize){
-        
+    pub fn cargar_pieza(&mut self, char_pieza: &char, fila: i16, col: i16){     
         let pieza_en_tablero = match char_pieza {
             'r' | 'R' => {
                 let rey = Rey::new(fila,col);
@@ -89,8 +87,7 @@ impl Juego{
         }else{
             self.pieza_negra = pieza_en_tablero;
         }
-        println!("{:?}",self.pieza_blanca);
-        println!("{:?}",self.pieza_negra);
+        
     }
 
 

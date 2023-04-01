@@ -1,27 +1,24 @@
 use crate::juego::piezas::AnalisisAtaque;
-use crate::juego::piezas::PiezaAjedrez;
 
 
 #[derive(Debug,Clone,Copy)]
 pub struct Alfil{
-    fila: usize,
-    columna: usize,
+    fila: i16,
+    columna: i16,
 }
 
 impl Alfil{
-    pub fn new(f: usize, c: usize) -> Self{
+    pub fn new(f: i16, c: i16) -> Self{
         Alfil{fila: f, columna: c}
     }
 }
 
 impl AnalisisAtaque for Alfil{
 
-    fn puedo_atacar_enemigo(&self, posicion_contrincante: (usize, usize)) -> bool{
-        println!("{} {}",self.fila,self.columna);
-        println!("{} {}",posicion_contrincante.0,posicion_contrincante.1);
-        true
+    fn puedo_atacar_enemigo(&self, posicion_contrincante: (i16, i16)) -> bool{
+        (self.fila - posicion_contrincante.0).abs() == (self.columna - posicion_contrincante.1).abs()
     }
-    fn dar_posicion(self) -> (usize, usize) {
+    fn dar_posicion(self) -> (i16, i16) {
         (self.fila, self.columna)
     }
 }
