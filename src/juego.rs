@@ -1,3 +1,5 @@
+use std::env::consts::FAMILY;
+
 use crate::{errors::TypeError, juego::piezas::{dama::Dama, alfil::Alfil, caballo::Caballo, torre::Torre, peon::Peon, Color}};
 
 
@@ -92,13 +94,22 @@ impl Juego{
     }
 
 
-    pub fn analisis_de_ataques(self){
-        let negra_puede_atacar = self.pieza_blanca.puede_atacar(&(self.pieza_negra));
-        let blanca_puede_atacar= self.pieza_negra.puede_atacar(&(self.pieza_blanca));
+    pub fn analisis_de_ataques(&self) -> (bool, bool){
+        let blanca_puede_atacar = self.pieza_blanca.puede_atacar(&(self.pieza_negra));
+        let negra_puede_atacar= self.pieza_negra.puede_atacar(&(self.pieza_blanca));
+        (blanca_puede_atacar, negra_puede_atacar)
+    }
+
+    pub fn reportar_resultado(&self, puede_capturar: (bool, bool)){
+        match puede_capturar{
+            (true,true) => { println!("E")},
+            (false,false) => { println!("P")},
+            (true,false) => { println!("B")},
+            (false,true) => { println!("N")},
+        }
     }
 
 }
-
 
 fn analizar_chequeo_tablero(hay_dos_piezas: bool, hay_pieza_ajedrez: (bool, bool)) -> Result<(), TypeError>{
     if !hay_dos_piezas{

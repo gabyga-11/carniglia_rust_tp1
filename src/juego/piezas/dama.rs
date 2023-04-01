@@ -18,7 +18,7 @@ impl AnalisisAtaque for Dama{
     fn puedo_atacar_enemigo(&self, posicion_contrincante: (usize, usize)) -> bool{
         println!("{} {}",self.fila,self.columna);
         println!("{} {}",posicion_contrincante.0,posicion_contrincante.1);
-        true
+        false
     }
     
     fn dar_posicion(self) -> (usize, usize) {

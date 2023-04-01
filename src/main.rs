@@ -15,19 +15,9 @@ fn main() {
 
     let tablero = procesar_lectura();
     let mut juego_de_ajedrez = juego::Juego::new(tablero);
-    juego_de_ajedrez =  analizar_y_cargar_piezas(juego_de_ajedrez);
-    juego_de_ajedrez.analisis_de_ataques();
-
-
-    println!("in main");
-    for i in 0..8{         
-        for j in 0..8{
-            print!("{} ",tablero[i][j]);
-        }
-        println!("\n");
-    }
-
-
+    juego_de_ajedrez = analizar_y_cargar_piezas(juego_de_ajedrez);
+    let resultado_ataques = juego_de_ajedrez.analisis_de_ataques();
+    juego_de_ajedrez.reportar_resultado(resultado_ataques);
 
     //si no hay args[1], cortar ejecucion
 
