@@ -1,5 +1,5 @@
 use crate::juego::piezas::AnalisisAtaque;
-use crate::juego::piezas::PiezaAjedrez;
+use crate::juego::piezas::NuevaPiezaAjedrez;
 
 
 #[derive(Debug)]
@@ -13,11 +13,11 @@ impl Dama{
         Dama{fila: f, columna: c}
     }
 }
-
+/* 
 impl AnalisisAtaque for Dama{
     fn puedo_atacar_enemigo(&self, pieza_contrincante: PiezaAjedrez) -> bool{
 
         println!("{} {}",self.fila,self.columna);
         true
     }
-}
+}*/

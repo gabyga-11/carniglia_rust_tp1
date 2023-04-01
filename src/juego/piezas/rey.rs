@@ -1,5 +1,5 @@
 use crate::juego::piezas::AnalisisAtaque;
-use crate::juego::piezas::PiezaAjedrez;
+use crate::juego::piezas::NuevaPiezaAjedrez;
 
 
 #[derive(Debug)]
@@ -16,9 +16,8 @@ impl Rey{
 
 impl AnalisisAtaque for Rey{
 
-    fn puedo_atacar_enemigo(&self, pieza_contrincante: PiezaAjedrez) -> bool{
-        println!("{} {}",self.fila,self.columna);
-        //pieza_contrincante.estas_en_casilla(1,1);
+    fn puedo_atacar_enemigo(&self, pieza_contrincante: NuevaPiezaAjedrez<()>) -> bool{
+        println!("{} {} y enemigo en {:?}",self.fila,self.columna,pieza_contrincante.tipo);
         true
     }
 }

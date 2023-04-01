@@ -14,7 +14,8 @@ fn main() {
     //println!("{:?}",file!());
 
     let tablero = procesar_lectura();
-    let juego_de_ajedrez = juego::Juego::new(tablero);
+    //let juego_de_ajedrez = juego::Juego::new(tablero);
+    let juego_de_ajedrez = juego::Juego{tablero: tablero};
     analizar_y_cargar_piezas(juego_de_ajedrez);
 
 
@@ -74,6 +75,9 @@ pub fn procesar_lectura() -> [[char; 8]; 8]{
 pub fn analizar_y_cargar_piezas(mut juego_de_ajedrez: juego::Juego){
     let analisis_piezas = juego_de_ajedrez.definir_piezas_en_tablero();
     main_match(analisis_piezas);
+    //TODO: AQUI A CONTINUACION HACER BUILD
+
+
 }
 
 pub fn main_match(handler: Result<(), TypeError>){

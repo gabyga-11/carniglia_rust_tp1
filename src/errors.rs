@@ -2,7 +2,6 @@ use std::process::exit;
 
 #[derive(Debug)]
 pub enum TypeError{
-    //ErrorPath,
     NombreDeArchivoInvalido,
     NoSeIngresoArgumentoValidoPorConsola,
     AperturaDeArchivoInvalida,
@@ -14,6 +13,7 @@ pub enum TypeError{
     PiezaInexistenteEnAjedrez,
     HayDosPiezasBlancas,
     HayDosPiezasNegras,
+    PiezaInexistenteEnAjedrezCargado,
 }
 
 //TODO: Implementar match con mensaje mas amigable

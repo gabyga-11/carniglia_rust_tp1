@@ -1,5 +1,5 @@
 use crate::juego::piezas::AnalisisAtaque;
-use crate::juego::piezas::PiezaAjedrez;
+use crate::juego::piezas::NuevaPiezaAjedrez;
 use super::Color;
 
 
@@ -16,11 +16,11 @@ impl Peon{
         Peon{fila: f, columna: c, color: color}
     }
 }
-
+/* 
 impl AnalisisAtaque for Peon{
 
     fn puedo_atacar_enemigo(&self, pieza_contrincante: PiezaAjedrez) -> bool{
         println!("{} {}",self.fila,self.columna);
         true
     }
-}
+}*/

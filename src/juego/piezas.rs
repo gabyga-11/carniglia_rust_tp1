@@ -11,8 +11,9 @@ use self::{rey::Rey, dama::Dama, alfil::Alfil, caballo::Caballo, peon::Peon, tor
 pub enum Color{
     Blanco,
     Negro,
+    Innecesario,
 }
-
+/* 
 #[derive(Debug)]
 pub enum PiezaAjedrez{
     Rey(Rey),
@@ -39,8 +40,78 @@ impl PiezaAjedrez{
     pub fn estas_en_casilla(f: usize, c: usize){
         
     }
+    /*pub fn get_pieza(){
+        if let PiezaAjedrez::Circle(elemento){
+            
+        }
+    }*/
 }
 
+*/
+
 pub trait AnalisisAtaque{
-    fn puedo_atacar_enemigo(&self, pieza_contrincante: PiezaAjedrez) -> bool;
+    fn puedo_atacar_enemigo(&self, pieza_contrincante: NuevaPiezaAjedrez<()>) -> bool;
 }
+
+
+//###########################################
+/* 
+enum nuevoTipoPieza{
+    Rey,
+    Dama,
+    Alfil,
+    Caballo,
+    Torre,
+    Peon,
+}*/
+
+
+
+
+#[derive(Debug)]
+pub struct NuevaPiezaAjedrez<T>{
+    tipo: T,
+
+}
+impl NuevaPiezaAjedrez<Rey>{
+    pub fn new(f: usize, c: usize) -> Self{
+        NuevaPiezaAjedrez{tipo: Rey::new( f, c)}
+    }
+}
+impl NuevaPiezaAjedrez<Dama>{
+    pub fn new(f: usize, c: usize) -> Self{
+        NuevaPiezaAjedrez{tipo: Dama::new( f, c)}
+    }
+}
+impl NuevaPiezaAjedrez<Torre>{
+    pub fn new(f: usize, c: usize) -> Self{
+        NuevaPiezaAjedrez{tipo: Torre::new( f, c)}
+    }
+}
+impl NuevaPiezaAjedrez<Caballo>{
+    pub fn new(f: usize, c: usize) -> Self{
+        NuevaPiezaAjedrez{tipo: Caballo::new( f, c)}
+    }
+}
+impl NuevaPiezaAjedrez<Alfil>{
+    pub fn new(f: usize, c: usize) -> Self{
+        NuevaPiezaAjedrez{tipo: Alfil::new( f, c)}
+    }
+}
+impl NuevaPiezaAjedrez<Peon>{
+    pub fn new(f: usize, c: usize, color: Color) -> Self{
+        NuevaPiezaAjedrez{tipo: Peon::new( f, c, color)}
+    }
+}
+/* 
+pub struct PiezaAjedrezBuilder{
+    tipo: 
+}impl PiezaAjedrezBuilder{
+    pub fn new() -> Self {
+        PiezaAjedrezBuilder {
+            recipiente: Recipiente::Vaso,
+            gustos: vec![],
+            cucharita: false,
+        }
+    }
+}*/

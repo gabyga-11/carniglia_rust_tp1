@@ -2,34 +2,33 @@ use crate::{errors::TypeError, juego::piezas::{dama::Dama, alfil::Alfil, caballo
 
 
 pub mod piezas;
-use self::piezas::PiezaAjedrez;
+use self::piezas::NuevaPiezaAjedrez;
 use piezas::rey::Rey;
 
-//2 validacion
-//que haya SOLO 2 caracteres, que uno sea minuscula y el otro mayuscula
 
-
-pub struct Juego{
-    pieza_blanca:  piezas::PiezaAjedrez,
-    pieza_negra: piezas::PiezaAjedrez,
-    tablero: [[char; 8]; 8],
+pub struct Juego{ //TODO: saca pub cuando hayas arreglado lo del builder
+    //pub pieza_blanca:  piezas::NuevaPiezaAjedrez<Rey>,
+    //pub pieza_negra: piezas::NuevaPiezaAjedrez<Rey>, 
+    //TODO: COn el refacto va a romper todo esto!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //Es necesario hacer un builder para el juego, desgraciadamente
+    pub tablero: [[char; 8]; 8],
 }
 
 impl Juego{
 
-    pub fn new(table: [[char; 8]; 8]) -> Self{
-        Juego{tablero: table, pieza_blanca: piezas::PiezaAjedrez::Indefinida, pieza_negra: piezas::PiezaAjedrez::Indefinida}
-    }
-
-
+    //pub fn new(table: [[char; 8]; 8]) -> Self{
+    //    
+    //    Juego{tablero: table, pieza_blanca: piezas::NuevaPiezaAjedrez<Rey>::new , pieza_negra: piezas::NuevaPiezaAjedrez<>} 
+    //}
     pub fn definir_piezas_en_tablero(&mut self) -> Result<(), TypeError>{
 
+        
+    
         let (mut i , mut j  )  = (0,0);
         let mut hay_dos_piezas = true;
         let mut hay_pieza_ajedrez = (false,false); //BLANCO NEGRO
         let tablero = self.tablero;
-
-
+    
         while i<8 && hay_dos_piezas{
             while j<8 && hay_dos_piezas{
                 //print!("{} ",tablero[i][j]);
@@ -37,7 +36,7 @@ impl Juego{
                     hay_dos_piezas = false;
                 }else if "RDACTPrdactp".contains(tablero[i][j]){
                     if tablero[i][j].is_lowercase() { hay_pieza_ajedrez.0 = true } else { hay_pieza_ajedrez.1 = true };
-                    self.cargar_pieza(&tablero[i][j],i,j);
+                    self.cargar_pieza(tablero[i][j],i,j)?;
                 }
                 j += 1;
             }
@@ -45,50 +44,62 @@ impl Juego{
             j = 0;
         }
         analizar_chequeo_tablero(hay_dos_piezas, hay_pieza_ajedrez)
-
+    
     }
 
+    
 
-    pub fn cargar_pieza(&mut self, char_pieza: &char, fila: usize, col: usize){
-        
-        let pieza_en_tablero = match char_pieza {
+
+    pub fn cargar_pieza(&mut self, char_pieza: char, fila: usize, col: usize) -> Result<(), TypeError>{
+        //let pieza_en_tablero;
+        if char_pieza == 'r' || char_pieza == 'R'{
+            Ok(())
+        }else{
+            Err(TypeError::PiezaInexistenteEnAjedrezCargado)
+        }
+        /* 
+        match char_pieza {
             'r' | 'R' => {
                 let rey = Rey::new(fila,col);
-                PiezaAjedrez::Rey(rey)
+                
+                pieza_en_tablero = NuevaPiezaAjedrez{tipo: rey};
             },
             'd' | 'D' => {
                 let dama = Dama::new(fila,col);
-                PiezaAjedrez::Dama(dama)
+                pieza_en_tablero = NuevaPiezaAjedrez{tipo: dama};
             },
             'a' | 'A' => {
                 let alfil = Alfil::new(fila,col);
-                PiezaAjedrez::Alfil(alfil)
+                pieza_en_tablero = NuevaPiezaAjedrez{tipo: alfil};
             },
             'c' | 'C' => {
                 let caballo = Caballo::new(fila,col);
-                PiezaAjedrez::Caballo(caballo)
+                pieza_en_tablero = NuevaPiezaAjedrez{tipo: caballo};
             },
             't' | 'T' => {
                 let torre = Torre::new(fila,col);
-                PiezaAjedrez::Torre(torre)
+                pieza_en_tablero = NuevaPiezaAjedrez{tipo: torre};
             },
             'p' => {
                 let peon = Peon::new(fila,col,Color::Blanco);
-                PiezaAjedrez::Peon(peon)
+                let pieza_en_tablero = NuevaPiezaAjedrez{tipo: peon};
             },
             'P' => {
                 let peon = Peon::new(fila,col,Color::Negro);
-                PiezaAjedrez::Peon(peon)
+                let pieza_en_tablero = NuevaPiezaAjedrez{tipo: peon};
             },
-            _ => PiezaAjedrez::Indefinida,
-        };
-        if char_pieza.is_lowercase(){
-            self.pieza_blanca = pieza_en_tablero;
-        }else{
-            self.pieza_negra = pieza_en_tablero;
-        }
-        println!("{:?}",self.pieza_blanca);
-        println!("{:?}",self.pieza_negra);
+            //_ => PiezaAjedrez::Indefinida,
+        }*/
+
+
+        //TODO: para poder continuar, necesito que el builder cargue los datos ACA
+        //if char_pieza.is_lowercase(){
+            //self.pieza_blanca = pieza_en_tablero;
+        //}else{
+            //self.pieza_negra = pieza_en_tablero;
+        //}
+        //println!("{:?}",self.pieza_blanca);
+        //println!("{:?}",self.pieza_negra);
     }
 }
 
@@ -104,3 +115,4 @@ fn analizar_chequeo_tablero(hay_dos_piezas: bool, hay_pieza_ajedrez: (bool, bool
         Ok(())
     }
 }
+
