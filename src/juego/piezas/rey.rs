@@ -19,5 +19,6 @@ impl AnalisisAtaque for Rey{
     fn puedo_atacar_enemigo(&self, pieza_contrincante: PiezaAjedrez) -> bool{
         println!("{} {}",self.fila,self.columna);
         //pieza_contrincante.estas_en_casilla(1,1);
+        true
     }
 }
