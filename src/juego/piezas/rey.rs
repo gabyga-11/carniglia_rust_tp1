@@ -2,7 +2,7 @@ use crate::juego::piezas::AnalisisAtaque;
 use crate::juego::piezas::PiezaAjedrez;
 
 
-#[derive(Debug)]
+#[derive(Debug,Clone,Copy)]
 pub struct Rey{
     fila: usize,
     columna: usize,
@@ -16,9 +16,12 @@ impl Rey{
 
 impl AnalisisAtaque for Rey{
 
-    fn puedo_atacar_enemigo(&self, pieza_contrincante: PiezaAjedrez) -> bool{
+    fn puedo_atacar_enemigo(&self, posicion_contrincante: (usize, usize)) -> bool{
         println!("{} {}",self.fila,self.columna);
-        //pieza_contrincante.estas_en_casilla(1,1);
+        println!("{} {}",posicion_contrincante.0,posicion_contrincante.1);
         true
+    }
+    fn dar_posicion(self) -> (usize, usize) {
+        (self.fila, self.columna)
     }
 }

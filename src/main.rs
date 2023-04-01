@@ -14,9 +14,9 @@ fn main() {
     //println!("{:?}",file!());
 
     let tablero = procesar_lectura();
-    let juego_de_ajedrez = juego::Juego::new(tablero);
-    analizar_y_cargar_piezas(juego_de_ajedrez);
-
+    let mut juego_de_ajedrez = juego::Juego::new(tablero);
+    juego_de_ajedrez =  analizar_y_cargar_piezas(juego_de_ajedrez);
+    juego_de_ajedrez.analisis_de_ataques();
 
 
     println!("in main");
@@ -71,9 +71,10 @@ pub fn procesar_lectura() -> [[char; 8]; 8]{
     archivo.dar_tablero_procesado()
 }
 
-pub fn analizar_y_cargar_piezas(mut juego_de_ajedrez: juego::Juego){
+pub fn analizar_y_cargar_piezas(mut juego_de_ajedrez: juego::Juego) -> juego::Juego{
     let analisis_piezas = juego_de_ajedrez.definir_piezas_en_tablero();
     main_match(analisis_piezas);
+    juego_de_ajedrez
 }
 
 pub fn main_match(handler: Result<(), TypeError>){

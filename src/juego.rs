@@ -90,6 +90,13 @@ impl Juego{
         println!("{:?}",self.pieza_blanca);
         println!("{:?}",self.pieza_negra);
     }
+
+
+    pub fn analisis_de_ataques(self){
+        let negra_puede_atacar = self.pieza_blanca.puede_atacar(&(self.pieza_negra));
+        let blanca_puede_atacar= self.pieza_negra.puede_atacar(&(self.pieza_blanca));
+    }
+
 }
 
 
