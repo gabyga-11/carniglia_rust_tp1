@@ -1,4 +1,4 @@
-use super::{Color, AnalisisAtaque};
+use super::{color::Color, AnalisisAtaque};
 
 #[derive(Debug, Clone, Copy)]
 pub struct Peon {
@@ -24,12 +24,9 @@ impl AnalisisAtaque for Peon {
         if self.color == Color::Negro {
             (self.columna - posicion_contrincante.1).abs() == 1
                 && posicion_contrincante.0 - self.fila == 1
-        } else if self.color == Color::Blanco {
+        } else {
             (self.columna - posicion_contrincante.1).abs() == 1
                 && self.fila - posicion_contrincante.0 == 1
-        } else {
-            println!("asodiaosd");
-            std::process::exit(-1);
         }
     }
     fn dar_posicion(self) -> (i16, i16) {

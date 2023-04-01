@@ -1,6 +1,6 @@
 pub mod piezas;
 use self::piezas::{
-    alfil::Alfil, caballo::Caballo, dama::Dama, peon::Peon, rey::Rey, torre::Torre, Color,
+    alfil::Alfil, caballo::Caballo, color::Color, dama::Dama, peon::Peon, rey::Rey, torre::Torre,
     PiezaAjedrez,
 };
 use crate::errors::TypeError;
@@ -49,7 +49,7 @@ impl Juego {
             i += 1;
             j = 0;
         }
-        analizar_chequeo_tablero(hay_dos_piezas, hay_pieza_ajedrez)
+        self.analizar_chequeo_tablero(hay_dos_piezas, hay_pieza_ajedrez)
     }
 
     pub fn cargar_pieza(&mut self, char_pieza: &char, fila: i16, col: i16) {
@@ -92,19 +92,20 @@ impl Juego {
             }
         }
     }
-}
 
-fn analizar_chequeo_tablero(
-    hay_dos_piezas: bool,
-    hay_pieza_ajedrez: (bool, bool),
-) -> Result<(), TypeError> {
-    if !hay_dos_piezas {
-        Err(TypeError::PiezaInexistenteEnAjedrez)
-    } else if hay_pieza_ajedrez.0 && !hay_pieza_ajedrez.1 {
-        Err(TypeError::HayDosPiezasBlancas)
-    } else if !hay_pieza_ajedrez.0 && hay_pieza_ajedrez.1 {
-        Err(TypeError::HayDosPiezasNegras)
-    } else {
-        Ok(())
+    fn analizar_chequeo_tablero(
+        &self,
+        hay_dos_piezas: bool,
+        hay_pieza_ajedrez: (bool, bool),
+    ) -> Result<(), TypeError> {
+        if !hay_dos_piezas {
+            Err(TypeError::PiezaInexistenteEnAjedrez)
+        } else if hay_pieza_ajedrez.0 && !hay_pieza_ajedrez.1 {
+            Err(TypeError::HayDosPiezasBlancas)
+        } else if !hay_pieza_ajedrez.0 && hay_pieza_ajedrez.1 {
+            Err(TypeError::HayDosPiezasNegras)
+        } else {
+            Ok(())
+        }
     }
 }

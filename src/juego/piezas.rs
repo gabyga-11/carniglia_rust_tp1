@@ -1,16 +1,17 @@
 pub mod alfil;
 pub mod caballo;
+pub mod color;
 pub mod dama;
 pub mod peon;
 pub mod rey;
 pub mod torre;
 use self::{alfil::Alfil, caballo::Caballo, dama::Dama, peon::Peon, rey::Rey, torre::Torre};
-
+/*
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub enum Color {
     Blanco,
     Negro,
-}
+}*/
 
 #[derive(Debug)]
 pub enum PiezaAjedrez {
