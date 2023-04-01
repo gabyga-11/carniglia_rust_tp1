@@ -1,5 +1,5 @@
-use std::{fs::{self}, io::{ErrorKind}, process::exit};
-use crate::errors::TypeError;
+use std::{fs::{self}, io::{ErrorKind}};
+use crate::errors::{TypeError, catch};
 
 pub struct FileHandler {
     path: String,
@@ -10,8 +10,7 @@ impl FileHandler{
 
     pub fn new(x: Vec<String>) -> Self{
         if x.len() != 2 {
-            println!("ERROR: Ingrese un único nombre de archivo");
-            exit(0);
+            catch(TypeError::CantidadDeArgumentosIngresadosIncorrecta);
         }
         let pathfile = format!("{}{}","src/".to_owned(),x[1]);
         FileHandler{path: pathfile, tablero: [[' '; 8]; 8]}
@@ -21,64 +20,22 @@ impl FileHandler{
     pub fn leer(&mut self) -> Result<(), TypeError > {
 
     
-        //let path = self.generar_path(self.path.as_str())?;
-    
         let contenido = self.leer_archivo_completo(self.path.as_str())?;
-
-
-
-        //contenido.find(char::is_alphabetic);
-        //println!("{:?}",contenido.matches(char::is_alphabetic).count());
-
-
-
-
-
-
-
-
-
-        //let string_prueba = String::from("_ _ _ _ _ _ _ _"); //TODO: VER ACA
-        //println!("{:?}",string_prueba.matches('_').count());
-        //VALIDACIONES
         
         
-        Self::contenido_archivo_es_correcto(&contenido)?;
-        
+        self.contenido_archivo_es_correcto(&contenido)?;
 
-        //OJO QUE DEBE ESTAR SIEMPRE INTERCALADOS LOS "_" CON " "
-
-        
-
-        //let mut tablero = [[' '; 8]; 8];
         
         for (indice_linea,linea) in contenido.lines().enumerate(){
             
             for (indice_letra,letra) in linea.split(' ').enumerate(){
-                
                 self.tablero[indice_linea][indice_letra] = letra.chars().next().unwrap_or_default();
-                //print!("{} ",self.tablero[indice_linea][indice_letra]);
             }
-            //println!("\n");
         }
-
         Ok(())
     }
-    
-    /* 
-    fn generar_path(&self, filepath: &str) -> Result<String, TypeError > {
-        let full_path = format!("{}{}",String::from("src/"),filepath);
         
-        if filepath == "c" { //si no termina en .txt
-            Err(TypeError::ErrorPath)
-        }else{
-            Ok(full_path)
-        }
-    
-    }*/
-    
     fn leer_archivo_completo(&self, filepath: &str) -> Result<String, TypeError> {
-        println!("{:?}",filepath);
         let archivo_resultado = fs::read_to_string(filepath);
         match archivo_resultado {
             Ok(archivo) => {
@@ -101,7 +58,7 @@ impl FileHandler{
         //ademas,iterar y verificar que los espacios esten en las posiciones impares de iteracion
         //ademas, ver que sean 8 iteraciones OK
         //DEBE HAber un total de 62 guiones -> hay mas de 2 piezas en el tablero OK
-    fn contenido_archivo_es_correcto(contenido_archivo: &str) -> Result<(), TypeError>{
+    fn contenido_archivo_es_correcto(&self,contenido_archivo: &str) -> Result<(), TypeError>{
 
         if contenido_archivo.lines().count() != 8 {
             Err(TypeError::TamanioDeTableroIncorrecto)
@@ -109,23 +66,17 @@ impl FileHandler{
         else{
             
             for linea in contenido_archivo.lines(){
-                //println!("{:?}", linea);
                 if linea.matches(' ').count() != 7 {
-                    //println!("{:?}",linea);
                     return Err(TypeError::ArchivoConFormatoDeEspaciosIncorrecta);
                 }else if linea.matches('_').count() < 6 || linea.matches('_').count() > 8{
-                    //println!("{:?}",linea);
                     return Err(TypeError::ArchivoConCantidadDeCasillerosVaciosIncorrecta);
                 }else if contenido_archivo.matches('_').count() != 62 {
                     return Err(TypeError::CantidadDePiezasIncorrecta);
                 }
 
-                
                 for (indice_letra,letra) in linea.char_indices(){
 
                     if indice_letra % 2 != 0 && letra != ' '{
-                        //println!("{:?}", indice_letra);
-                        //println!("{:?}", letra);
                         return Err(TypeError::ArchivoConFormatoDeEspaciosImparesIncorrecta);
                     }
                 }

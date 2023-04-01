@@ -3,7 +3,6 @@ use std::process::exit;
 #[derive(Debug)]
 pub enum TypeError{
     NombreDeArchivoInvalido,
-    NoSeIngresoArgumentoValidoPorConsola,
     AperturaDeArchivoInvalida,
     TamanioDeTableroIncorrecto,
     ArchivoConFormatoDeEspaciosIncorrecta,
@@ -13,6 +12,7 @@ pub enum TypeError{
     PiezaInexistenteEnAjedrez,
     HayDosPiezasBlancas,
     HayDosPiezasNegras,
+    CantidadDeArgumentosIngresadosIncorrecta,
 }
 
 pub fn catch(tipo: TypeError){
@@ -24,7 +24,6 @@ pub fn catch(tipo: TypeError){
 fn obtener_mensaje_personalizado(tipo: TypeError) -> String{
     match tipo {
         TypeError::NombreDeArchivoInvalido => String::from("Nombre de Archivo Inválido"),
-        TypeError::NoSeIngresoArgumentoValidoPorConsola => String::from("No se ha ingresado un argumento válido por consola"),
         TypeError::AperturaDeArchivoInvalida => String::from("Apertura de archivo inválida"),
         TypeError::TamanioDeTableroIncorrecto => String::from("El tamaño del tablero no es correcto"),
         TypeError::ArchivoConFormatoDeEspaciosIncorrecta => String::from("El archivo no respeta el formato correcto"),
@@ -34,5 +33,6 @@ fn obtener_mensaje_personalizado(tipo: TypeError) -> String{
         TypeError::PiezaInexistenteEnAjedrez => String::from("Se ha ingresado una pieza inexistente en el archivo"),
         TypeError::HayDosPiezasBlancas => String::from("Hay dos piezas blancas en el tablero"),
         TypeError::HayDosPiezasNegras => String::from("Hay dos piezas negras en el tablero"),
+        TypeError::CantidadDeArgumentosIngresadosIncorrecta => String::from("Cantidad de argumentos ingresados por consola inválido"),
     }
 }
