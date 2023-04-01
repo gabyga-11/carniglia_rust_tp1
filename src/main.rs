@@ -3,6 +3,8 @@ mod errors;
 mod juego;
 use errors::TypeError;
 
+
+
 fn main() {
     println!("Hello, mundo!");
     
@@ -12,7 +14,8 @@ fn main() {
     //println!("{:?}",file!());
 
     let tablero = procesar_lectura();
-    analizar_tablero(&tablero);
+    let juego_de_ajedrez = juego::Juego::new(tablero);
+    analizar_y_cargar_piezas(juego_de_ajedrez);
 
 
 
@@ -68,8 +71,8 @@ pub fn procesar_lectura() -> [[char; 8]; 8]{
     archivo.dar_tablero_procesado()
 }
 
-pub fn analizar_tablero(tablero: &[[char; 8]; 8]){
-    let analisis_piezas = juego::estan_las_piezas_en(tablero);
+pub fn analizar_y_cargar_piezas(mut juego_de_ajedrez: juego::Juego){
+    let analisis_piezas = juego_de_ajedrez.definir_piezas_en_tablero();
     main_match(analisis_piezas);
 }
 

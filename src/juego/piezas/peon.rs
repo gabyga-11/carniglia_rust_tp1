@@ -1,23 +1,26 @@
 use crate::juego::piezas::AnalisisAtaque;
 use crate::juego::piezas::PiezaAjedrez;
+use super::Color;
+
 
 
 #[derive(Debug)]
-pub struct Rey{
+pub struct Peon{
     fila: usize,
     columna: usize,
-}
+    color: Color,
+} 
 
-impl Rey{
-    pub fn new(f: usize, c: usize) -> Self{
-        Rey{fila: f, columna: c}
+impl Peon{
+    pub fn new(f: usize, c: usize, color: Color) -> Self{
+        Peon{fila: f, columna: c, color: color}
     }
 }
 
-impl AnalisisAtaque for Rey{
+impl AnalisisAtaque for Peon{
 
     fn puedo_atacar_enemigo(&self, pieza_contrincante: PiezaAjedrez) -> bool{
         println!("{} {}",self.fila,self.columna);
-        //pieza_contrincante.estas_en_casilla(1,1);
+        true
     }
 }

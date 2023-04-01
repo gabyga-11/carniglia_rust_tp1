@@ -1,53 +1,99 @@
-use crate::errors::TypeError;
+use crate::{errors::TypeError, juego::piezas::{dama::Dama, alfil::Alfil, caballo::Caballo, torre::Torre, peon::Peon, Color}};
+
+
 pub mod piezas;
-use crate::juego::piezas::rey;
-use crate::juego::piezas::Color;
-use crate::juego::piezas::Caballo;
+use self::piezas::PiezaAjedrez;
+use piezas::rey::Rey;
+
 //2 validacion
 //que haya SOLO 2 caracteres, que uno sea minuscula y el otro mayuscula
-pub fn estan_las_piezas_en(tablero: &[[char; 8]; 8]) -> Result<(), TypeError>{
-    let (mut i , mut j)  = (0,0);
-    let mut hay_dos_piezas = true;
-    let mut hay_pieza_ajedrez = (false,false); //BLANCO NEGRO
 
 
+pub struct Juego{
+    pieza_blanca:  piezas::PiezaAjedrez,
+    pieza_negra: piezas::PiezaAjedrez,
+    tablero: [[char; 8]; 8],
+}
 
-    //let pieza_negra = piezas::PiezaAjedrez::Rey(rey::Rey{fila: 2, columna: 2,color: Color::Negro});
-    //let pieza_blanca = piezas::PiezaAjedrez::Caballo(Caballo{fila: 5, columna: 2,color: Color::Blanco});
+impl Juego{
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    while i<8 && hay_dos_piezas{
-        while j<8 && hay_dos_piezas{
-            //print!("{} ",tablero[i][j]);
-            if tablero[i][j].is_alphabetic() && !("RDACTPrdactp".contains(tablero[i][j])) {
-                hay_dos_piezas = false;
-            }else if "RDACTPrdactp".contains(tablero[i][j]){
-                if tablero[i][j].is_lowercase() {hay_pieza_ajedrez.0 = true} else {hay_pieza_ajedrez.1 = true};
-            }
-            j += 1;
-        }
-        i += 1;
-        j = 0;
+    pub fn new(table: [[char; 8]; 8]) -> Self{
+        Juego{tablero: table, pieza_blanca: piezas::PiezaAjedrez::Indefinida, pieza_negra: piezas::PiezaAjedrez::Indefinida}
     }
-    //println!("cantidad de piezas {:?}",cantidad_de_piezas);
+
+
+    pub fn definir_piezas_en_tablero(&mut self) -> Result<(), TypeError>{
+
+        let (mut i , mut j  )  = (0,0);
+        let mut hay_dos_piezas = true;
+        let mut hay_pieza_ajedrez = (false,false); //BLANCO NEGRO
+        let tablero = self.tablero;
+
+
+        while i<8 && hay_dos_piezas{
+            while j<8 && hay_dos_piezas{
+                //print!("{} ",tablero[i][j]);
+                if tablero[i][j].is_alphabetic() && !("RDACTPrdactp".contains(tablero[i][j])) {
+                    hay_dos_piezas = false;
+                }else if "RDACTPrdactp".contains(tablero[i][j]){
+                    if tablero[i][j].is_lowercase() { hay_pieza_ajedrez.0 = true } else { hay_pieza_ajedrez.1 = true };
+                    self.cargar_pieza(&tablero[i][j],i,j);
+                }
+                j += 1;
+            }
+            i += 1;
+            j = 0;
+        }
+        analizar_chequeo_tablero(hay_dos_piezas, hay_pieza_ajedrez)
+
+    }
+
+
+    pub fn cargar_pieza(&mut self, char_pieza: &char, fila: usize, col: usize){
+        
+        let pieza_en_tablero = match char_pieza {
+            'r' | 'R' => {
+                let rey = Rey::new(fila,col);
+                PiezaAjedrez::Rey(rey)
+            },
+            'd' | 'D' => {
+                let dama = Dama::new(fila,col);
+                PiezaAjedrez::Dama(dama)
+            },
+            'a' | 'A' => {
+                let alfil = Alfil::new(fila,col);
+                PiezaAjedrez::Alfil(alfil)
+            },
+            'c' | 'C' => {
+                let caballo = Caballo::new(fila,col);
+                PiezaAjedrez::Caballo(caballo)
+            },
+            't' | 'T' => {
+                let torre = Torre::new(fila,col);
+                PiezaAjedrez::Torre(torre)
+            },
+            'p' => {
+                let peon = Peon::new(fila,col,Color::Blanco);
+                PiezaAjedrez::Peon(peon)
+            },
+            'P' => {
+                let peon = Peon::new(fila,col,Color::Negro);
+                PiezaAjedrez::Peon(peon)
+            },
+            _ => PiezaAjedrez::Indefinida,
+        };
+        if char_pieza.is_lowercase(){
+            self.pieza_blanca = pieza_en_tablero;
+        }else{
+            self.pieza_negra = pieza_en_tablero;
+        }
+        println!("{:?}",self.pieza_blanca);
+        println!("{:?}",self.pieza_negra);
+    }
+}
+
+
+fn analizar_chequeo_tablero(hay_dos_piezas: bool, hay_pieza_ajedrez: (bool, bool)) -> Result<(), TypeError>{
     if !hay_dos_piezas{
         Err(TypeError::PiezaInexistenteEnAjedrez)  
     }else if hay_pieza_ajedrez.0 && !hay_pieza_ajedrez.1 {
@@ -57,5 +103,4 @@ pub fn estan_las_piezas_en(tablero: &[[char; 8]; 8]) -> Result<(), TypeError>{
     }else{
         Ok(())
     }
-
 }
