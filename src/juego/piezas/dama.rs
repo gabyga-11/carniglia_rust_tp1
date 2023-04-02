@@ -1,6 +1,6 @@
 use super::AnalisisAtaque;
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Dama {
     fila: i16,
     columna: i16,

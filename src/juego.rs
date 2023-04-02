@@ -52,7 +52,7 @@ impl Juego {
         self.analizar_chequeo_tablero(hay_dos_piezas, hay_pieza_ajedrez)
     }
 
-    pub fn cargar_pieza(&mut self, char_pieza: &char, fila: i16, col: i16) {
+    fn cargar_pieza(&mut self, char_pieza: &char, fila: i16, col: i16) {
         let pieza_en_tablero = match char_pieza {
             'r' | 'R' => PiezaAjedrez::Rey(Rey::new(fila, col)),
             'd' | 'D' => PiezaAjedrez::Dama(Dama::new(fila, col)),
@@ -108,4 +108,190 @@ impl Juego {
             Ok(())
         }
     }
+}
+
+#[test]
+pub fn definir_piezas_en_tablero_ok() {
+    let tablero = [
+        ['c', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', 'P', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+    ];
+    let mut juego = Juego::new(tablero);
+
+    assert_eq!(juego.definir_piezas_en_tablero(), Ok(()));
+}
+
+#[test]
+pub fn definir_piezas_en_tablero_peon() {
+    let tablero = [
+        ['p', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', 'P', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+    ];
+    let mut juego = Juego::new(tablero);
+    juego.definir_piezas_en_tablero().unwrap();
+    assert_eq!(juego.pieza_negra, PiezaAjedrez::Peon(Peon::new(4,4,Color::Negro)));
+    assert_eq!(juego.pieza_blanca, PiezaAjedrez::Peon(Peon::new(0,0,Color::Blanco)));
+}
+
+#[test]
+pub fn definir_piezas_en_tablero_caballo() {
+    let tablero = [
+        ['c', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', 'C', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+    ];
+    let mut juego = Juego::new(tablero);
+    juego.definir_piezas_en_tablero().unwrap();
+    assert_eq!(juego.pieza_negra, PiezaAjedrez::Caballo(Caballo::new(4,4)));
+    assert_eq!(juego.pieza_blanca, PiezaAjedrez::Caballo(Caballo::new(0,0)));
+}
+
+#[test]
+pub fn definir_piezas_en_tablero_alfil() {
+    let tablero = [
+        ['_', 'a', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', 'A', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+    ];
+    let mut juego = Juego::new(tablero);
+    juego.definir_piezas_en_tablero().unwrap();
+    assert_eq!(juego.pieza_negra, PiezaAjedrez::Alfil(Alfil::new(4,4)));
+    assert_eq!(juego.pieza_blanca, PiezaAjedrez::Alfil(Alfil::new(0,1)));
+}
+
+#[test]
+pub fn definir_piezas_en_tablero_rey() {
+    let tablero = [
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['R', '_', '_', '_', '_', '_', '_', 'r'],
+    ];
+    let mut juego = Juego::new(tablero);
+    juego.definir_piezas_en_tablero().unwrap();
+    assert_eq!(juego.pieza_negra, PiezaAjedrez::Rey(Rey::new(7,0)));
+    assert_eq!(juego.pieza_blanca, PiezaAjedrez::Rey(Rey::new(7,7)));
+}
+
+#[test]
+pub fn definir_piezas_en_tablero_dama() {
+    let tablero = [
+        ['d', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', 'D', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+    ];
+    let mut juego = Juego::new(tablero);
+    juego.definir_piezas_en_tablero().unwrap();
+    assert_eq!(juego.pieza_negra, PiezaAjedrez::Dama(Dama::new(5,5)));
+    assert_eq!(juego.pieza_blanca, PiezaAjedrez::Dama(Dama::new(0,0)));
+}
+
+#[test]
+pub fn definir_piezas_en_tablero_torre() {
+    let tablero = [
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', 't', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['T', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+    ];
+    let mut juego = Juego::new(tablero);
+    juego.definir_piezas_en_tablero().unwrap();
+    assert_eq!(juego.pieza_negra, PiezaAjedrez::Torre(Torre::new(3,0)));
+    assert_eq!(juego.pieza_blanca, PiezaAjedrez::Torre(Torre::new(1,6)));
+}
+
+
+
+#[test]
+pub fn definir_piezas_en_tablero_inexistente() {
+    let tablero = [
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', 'P', 'q', '_', '_'],
+        ['_', '_', '_', '_', '_', 'p', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+    ];
+    let mut juego = Juego::new(tablero);
+
+    assert_eq!(
+        juego.definir_piezas_en_tablero(),
+        Err(TypeError::PiezaInexistenteEnAjedrez)
+    );
+}
+#[test]
+pub fn definir_piezas_en_tablero_dos_negras() {
+    let tablero = [
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', 'A', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', 'P', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+    ];
+    let mut juego = Juego::new(tablero);
+
+    assert_eq!(
+        juego.definir_piezas_en_tablero(),
+        Err(TypeError::HayDosPiezasNegras)
+    );
+}
+
+#[test]
+pub fn definir_piezas_en_tablero_dos_blancas() {
+    let tablero = [
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', 'c', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+        ['p', '_', '_', '_', '_', '_', '_', '_'],
+        ['_', '_', '_', '_', '_', '_', '_', '_'],
+    ];
+    let mut juego = Juego::new(tablero);
+
+    assert_eq!(
+        juego.definir_piezas_en_tablero(),
+        Err(TypeError::HayDosPiezasBlancas)
+    );
 }

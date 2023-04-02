@@ -1,6 +1,6 @@
 use super::{color::Color, AnalisisAtaque};
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Peon {
     fila: i16,
     columna: i16,

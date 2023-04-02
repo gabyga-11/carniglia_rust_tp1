@@ -13,7 +13,7 @@ pub enum Color {
     Negro,
 }*/
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum PiezaAjedrez {
     Rey(Rey),
     Dama(Dama),
