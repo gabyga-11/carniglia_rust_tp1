@@ -1,6 +1,8 @@
 use std::process::exit;
 
 #[derive(Debug, PartialEq)]
+/// Tipos de errores específicos para este proyecto.
+/// Los nombres son autoexplicativos.
 pub enum TypeError {
     NombreDeArchivoInvalido,
     AperturaDeArchivoInvalida,
@@ -15,12 +17,17 @@ pub enum TypeError {
     CantidadDeArgumentosIngresadosIncorrecta,
 }
 
+/// En base a un error de los posibles en el enum TypeError,
+/// obtiene el mensaje personalizado para cada error
+/// y muestra por pantalla el mensaje.
+/// Finalmente, sale del programa.
 pub fn catch(tipo: TypeError) {
     let mensaje_error = obtener_mensaje_personalizado(tipo);
     println!("ERROR: {}", mensaje_error);
     exit(1);
 }
-
+/// En base a un error de los posibles en el enum TypeError,
+/// asigna un mensaje personalizado para cada error, y retorna el mismo
 fn obtener_mensaje_personalizado(tipo: TypeError) -> String {
     match tipo {
         TypeError::NombreDeArchivoInvalido => String::from("Nombre de Archivo Inválido"),
