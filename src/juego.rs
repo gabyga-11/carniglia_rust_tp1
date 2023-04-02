@@ -5,10 +5,12 @@ use self::piezas::{
 };
 use crate::errors::TypeError;
 
+/// Caracteres asociados a las piezas de ajedrez en el archivo.
 const CHARS_AJEDREZ: &str = "RDACTPrdactp";
+
 /// En base al tablero dado, ubica las piezas blanca y negra, y verifica si pueden atacarse mutuamente
 /// Ademas, informará esto por consola
-/// 
+///
 /// Contiene un tablero, que deberá ya estar procesado. Y además, contiene una pieza blanca y una negra.
 pub struct Juego {
     pieza_blanca: piezas::PiezaAjedrez,
@@ -65,7 +67,7 @@ impl Juego {
 
     /// En base al caracter pasado, retorna el valor correspondiente del enum PiezaAjedrez,
     /// con la pieza correspondiente dentro, asignandole la posicion en el tablero, y el color (caso peón).
-    /// 
+    ///
     /// De esta forma, se asignan los atributos de cada pieza de Juego.
     fn cargar_pieza(&mut self, char_pieza: &char, fila: i16, col: i16) {
         let pieza_en_tablero = match char_pieza {
@@ -85,7 +87,7 @@ impl Juego {
         }
     }
     /// Se debe haber ejecutado definir_piezas_en_tablero()
-    /// 
+    ///
     /// Le pide a cada pieza que analice si puede atacar a su pieza contricante.
     /// Retorna un par booleano que indica si es posible este ataque por parte de cada una.
     pub fn analisis_de_ataques(&self) -> (bool, bool) {
@@ -93,7 +95,7 @@ impl Juego {
         let negra_puede_atacar = self.pieza_negra.puede_atacar(&(self.pieza_blanca));
         (blanca_puede_atacar, negra_puede_atacar)
     }
-    
+
     /// Retorna por pantalla el caracter resultado del analisis de ataques de cada pieza
     pub fn reportar_resultado(&self, puede_capturar: (bool, bool)) {
         match puede_capturar {

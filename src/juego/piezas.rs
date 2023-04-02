@@ -8,16 +8,16 @@ pub mod torre;
 use self::{alfil::Alfil, caballo::Caballo, dama::Dama, peon::Peon, rey::Rey, torre::Torre};
 
 /// PiezaAjedrez es un enum donde cada valor se corresponde con una pieza del Ajedrez,
-/// mas una pieza indefinida. 
-/// 
+/// mas una pieza indefinida.
+///
 /// Dentro de cada pieza, se encuentra un struct del tipo de pieza que corresponda.
-/// 
+///
 /// ### Ejemplo
 /// ```
 /// let pieza_blanca = PiezaAjedrez::Caballo(Caballo::new(4, 4));
 /// assert_eq!(pieza_blanca.posicion(),(4,4));
 /// ```
-/// 
+///
 #[derive(Debug, PartialEq)]
 pub enum PiezaAjedrez {
     Rey(Rey),
@@ -32,7 +32,7 @@ impl PiezaAjedrez {
     /// Dada una pieza contrincante, lo que hace es preguntarle a la
     /// pieza contenida (struct dentro del enum PiezaAjedrez)
     /// si puede atacar a la pieza contrincante.
-    /// 
+    ///
     /// Retorna true o false en base al resultado del analisis de ataque de
     /// la pieza contenida
     pub fn puede_atacar(&self, pieza_contrincante: &PiezaAjedrez) -> bool {
@@ -73,11 +73,11 @@ impl PiezaAjedrez {
 }
 
 /// Grupo de funciones asociadas a todas las piezas
-/// de ajedrez en su conjunto. 
-/// 
+/// de ajedrez en su conjunto.
+///
 /// Relativo a lo necesario para definir
 /// si el ataque de una pieza a otra puede realizarse.
-/// 
+///
 /// #### - puedo_atacar_enemigo
 /// Esta funcion determina, dada la posicion de la pieza contrincante,
 /// si la pieza en cuestion puede atacarla o no. Retorna resultado en un booleano

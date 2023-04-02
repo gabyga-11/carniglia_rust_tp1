@@ -6,8 +6,8 @@ use std::{
 
 /// Es el encargado de realizar todo el procesamiento inicial del archivo,
 /// para obtener un tablero de 8 x 8 de caracteres válido.
-/// 
-/// Contiene el path desde src/*.txt con el nombre del archivo input. 
+///
+/// Contiene el path desde src/*.txt con el nombre del archivo input.
 /// Junto con una matriz de chars de 8 x 8, que permite cargar los datos del archivo.
 #[derive(PartialEq, Debug)]
 pub struct FileHandler {
@@ -65,25 +65,25 @@ impl FileHandler {
             }
         }
     }
-    
+
     /// Se le pasa el contenido completo del archivo. Realiza un análisis global y linea por linea para identificar
     /// distintos posible errores de formato del archivo. Si es Ok, retorna vacío.
-    /// 
-    /// ## Errores de analisis global 
+    ///
+    /// ## Errores de analisis global
     /// Si la cantidad de lineas no es 8, retorna TypeError TamanioDeTableroIncorrecto.
-    /// 
+    ///
     /// Si no hay 62 guiones (luego de descartar otras posibilidades), retorna TypeError TamanioDeTableroIncorrecto.
-    /// 
+    ///
     /// Si por culaquier otro motivo no puede abrirse el archivo, devolvera TypeError CantidadDePiezasIncorrecta.
-    /// 
+    ///
     /// ## Errores de analisis linea por linea
-    /// 
+    ///
     /// Con encontrar una linea que cumpla alguna de estas condiciones, ya retorna el error.
-    /// 
+    ///
     /// Si la cantidad de espacios no es 7, retorna TypeError ArchivoConFormatoDeEspaciosIncorrecta.
-    /// 
+    ///
     /// Si la cantidad de guiones es meno que 6 o mayor de 8, retorna TypeError ArchivoConCantidadDeCasillerosVaciosIncorrecta.
-    /// 
+    ///
     /// Si se encuentra algun caracter en la posicion que le corresponde a un espacio, retorna TypeError ArchivoConCantidadDeCasillerosVaciosIncorrecta
     fn analizar_contenido_archivo(&self, contenido_archivo: &str) -> Result<(), TypeError> {
         if contenido_archivo.lines().count() != 8 {
@@ -156,7 +156,7 @@ mod tests {
         assert_eq!(fh_ok.analizar_contenido_archivo(contenido), Ok(()));
     }
     #[test]
-    fn test_contenido_archivo_linea_menos(){
+    fn test_contenido_archivo_linea_menos() {
         let fh_ok = definir_fh();
         let contenido = "_ _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ P _ _ _\n_ _ _ _ _ p _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _";
         assert_eq!(
@@ -165,7 +165,7 @@ mod tests {
         );
     }
     #[test]
-    fn test_contenido_archivo_linea_mas(){
+    fn test_contenido_archivo_linea_mas() {
         let fh_ok = definir_fh();
         let contenido = "_ _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ P _ _ _\n_ _ _ _ _ p _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _";
         assert_eq!(
@@ -174,7 +174,7 @@ mod tests {
         );
     }
     #[test]
-    fn test_contenido_archivo_espacio_de_mas(){
+    fn test_contenido_archivo_espacio_de_mas() {
         let fh_ok = definir_fh();
         let contenido = "_ _ _ _ _ _ _ _\n_ _ _ _ _  _ _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ P _ _ _\n_ _ _ _ _ p _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _";
         assert_eq!(
@@ -183,7 +183,7 @@ mod tests {
         );
     }
     #[test]
-    fn test_contenido_archivo_cantidad_vacio_por_linea_incorrecta(){
+    fn test_contenido_archivo_cantidad_vacio_por_linea_incorrecta() {
         let fh_ok = definir_fh();
         let contenido = "_ _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _a_\n_ _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ P _ _ _\n_ _ _ _ _ p _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _";
         assert_eq!(
@@ -192,7 +192,7 @@ mod tests {
         );
     }
     #[test]
-    fn test_contenido_archivo_cantidad_piezas_incorrecta(){
+    fn test_contenido_archivo_cantidad_piezas_incorrecta() {
         let fh_ok = definir_fh();
         let contenido = "_ _ _ _ r _ _ _\n_ _ _ _ a _ _ _\np _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ P _ _ _\n_ _ _ _ _ p _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _";
         assert_eq!(
@@ -201,7 +201,7 @@ mod tests {
         );
     }
     #[test]
-    fn test_contenido_archivo_string_aleatorio(){
+    fn test_contenido_archivo_string_aleatorio() {
         let fh_ok = definir_fh();
         let contenido = "_ _ _ _ r _ _qweriuywqegri _\n_ _ _ _ a _ _ _\np _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ P _ _ _\n_ _ _ _ _ p _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _";
         assert_eq!(
@@ -210,7 +210,7 @@ mod tests {
         );
     }
 
-    fn definir_fh() -> FileHandler{
+    fn definir_fh() -> FileHandler {
         FileHandler {
             path: String::from(""),
             tablero: [[' '; 8]; 8],
