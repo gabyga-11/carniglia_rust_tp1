@@ -29,20 +29,19 @@ impl AnalisisAtaque for Dama {
     }
 }
 
-
 #[cfg(test)]
 mod tests {
     use crate::juego::piezas::{dama::Dama, AnalisisAtaque};
     #[test]
     fn puedo_atacar_enemigo_dama() {
-        let mut pieza = Dama::new(1,1);
-        assert_eq!(pieza.puedo_atacar_enemigo((3,1)), true);
-        pieza = Dama::new(5,5);
-        assert_eq!(pieza.puedo_atacar_enemigo((7,7)), true);
+        let mut pieza = Dama::new(1, 1);
+        assert_eq!(pieza.puedo_atacar_enemigo((3, 1)), true);
+        pieza = Dama::new(5, 5);
+        assert_eq!(pieza.puedo_atacar_enemigo((7, 7)), true);
     }
     #[test]
     fn no_puedo_atacar_enemigo_dama() {
-        let pieza = Dama::new(1,1);
-        assert_eq!(pieza.puedo_atacar_enemigo((3,2)), false);
+        let pieza = Dama::new(1, 1);
+        assert_eq!(pieza.puedo_atacar_enemigo((3, 2)), false);
     }
 }

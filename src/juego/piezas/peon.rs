@@ -36,30 +36,30 @@ impl AnalisisAtaque for Peon {
 
 #[cfg(test)]
 mod tests {
-    use crate::juego::piezas::{peon::Peon, AnalisisAtaque, color::Color};
+    use crate::juego::piezas::{color::Color, peon::Peon, AnalisisAtaque};
     #[test]
     fn puedo_atacar_enemigo_peon_negro() {
-        let pieza = Peon::new(1,2,Color::Negro);
-        assert_eq!(pieza.puedo_atacar_enemigo((2,1)), true);
-    }    
+        let pieza = Peon::new(1, 2, Color::Negro);
+        assert_eq!(pieza.puedo_atacar_enemigo((2, 1)), true);
+    }
     #[test]
     fn puedo_atacar_enemigo_peon_blanco() {
-        let pieza = Peon::new(2,2,Color::Blanco);
-        assert_eq!(pieza.puedo_atacar_enemigo((1,3)), true);
+        let pieza = Peon::new(2, 2, Color::Blanco);
+        assert_eq!(pieza.puedo_atacar_enemigo((1, 3)), true);
     }
     #[test]
     fn no_puedo_atacar_enemigo_peon() {
-        let pieza = Peon::new(1,1, Color::Negro);
-        assert_eq!(pieza.puedo_atacar_enemigo((2,1)), false);
+        let pieza = Peon::new(1, 1, Color::Negro);
+        assert_eq!(pieza.puedo_atacar_enemigo((2, 1)), false);
     }
     #[test]
     fn no_puedo_atacar_enemigo_peon_negro() {
-        let pieza = Peon::new(1,1, Color::Blanco);
-        assert_eq!(pieza.puedo_atacar_enemigo((2,2)), false);
+        let pieza = Peon::new(1, 1, Color::Blanco);
+        assert_eq!(pieza.puedo_atacar_enemigo((2, 2)), false);
     }
     #[test]
     fn no_puedo_atacar_enemigo_peon_blanco() {
-        let pieza = Peon::new(2,2, Color::Negro);
-        assert_eq!(pieza.puedo_atacar_enemigo((1,1)), false);
+        let pieza = Peon::new(2, 2, Color::Negro);
+        assert_eq!(pieza.puedo_atacar_enemigo((1, 1)), false);
     }
 }

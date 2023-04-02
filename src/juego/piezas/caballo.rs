@@ -29,20 +29,19 @@ impl AnalisisAtaque for Caballo {
     }
 }
 
-
 #[cfg(test)]
 mod tests {
     use crate::juego::piezas::{caballo::Caballo, AnalisisAtaque};
     #[test]
     fn puedo_atacar_enemigo_caballo() {
-        let mut pieza = Caballo::new(1,1);
-        assert_eq!(pieza.puedo_atacar_enemigo((3,2)), true);
-        pieza = Caballo::new(3,1);
-        assert_eq!(pieza.puedo_atacar_enemigo((2,3)), true);
+        let mut pieza = Caballo::new(1, 1);
+        assert_eq!(pieza.puedo_atacar_enemigo((3, 2)), true);
+        pieza = Caballo::new(3, 1);
+        assert_eq!(pieza.puedo_atacar_enemigo((2, 3)), true);
     }
     #[test]
     fn no_puedo_atacar_enemigo_caballo() {
-        let pieza = Caballo::new(2,2);
-        assert_eq!(pieza.puedo_atacar_enemigo((1,2)), false);
+        let pieza = Caballo::new(2, 2);
+        assert_eq!(pieza.puedo_atacar_enemigo((1, 2)), false);
     }
 }

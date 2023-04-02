@@ -31,14 +31,14 @@ mod tests {
     use crate::juego::piezas::{torre::Torre, AnalisisAtaque};
     #[test]
     fn puedo_atacar_enemigo_torre() {
-        let mut pieza = Torre::new(1,1);
-        assert_eq!(pieza.puedo_atacar_enemigo((3,1)), true);
-        pieza = Torre::new(1,1);
-        assert_eq!(pieza.puedo_atacar_enemigo((1,7)), true);
+        let mut pieza = Torre::new(1, 1);
+        assert_eq!(pieza.puedo_atacar_enemigo((3, 1)), true);
+        pieza = Torre::new(1, 1);
+        assert_eq!(pieza.puedo_atacar_enemigo((1, 7)), true);
     }
     #[test]
     fn no_puedo_atacar_enemigo_torre() {
-        let pieza = Torre::new(1,1);
-        assert_eq!(pieza.puedo_atacar_enemigo((3,2)), false);
+        let pieza = Torre::new(1, 1);
+        assert_eq!(pieza.puedo_atacar_enemigo((3, 2)), false);
     }
 }

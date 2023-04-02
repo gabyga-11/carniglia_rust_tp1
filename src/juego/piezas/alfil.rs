@@ -27,21 +27,19 @@ impl AnalisisAtaque for Alfil {
     }
 }
 
-
-
 #[cfg(test)]
 mod tests {
     use crate::juego::piezas::{alfil::Alfil, AnalisisAtaque};
     #[test]
     fn puedo_atacar_enemigo_alfil() {
-        let mut pieza = Alfil::new(1,1);
-        assert_eq!(pieza.puedo_atacar_enemigo((5,5)), true);
-        pieza = Alfil::new(7,7);
-        assert_eq!(pieza.puedo_atacar_enemigo((5,5)), true);
+        let mut pieza = Alfil::new(1, 1);
+        assert_eq!(pieza.puedo_atacar_enemigo((5, 5)), true);
+        pieza = Alfil::new(7, 7);
+        assert_eq!(pieza.puedo_atacar_enemigo((5, 5)), true);
     }
     #[test]
     fn no_puedo_atacar_enemigo_alfil() {
-        let pieza = Alfil::new(1,1);
-        assert_eq!(pieza.puedo_atacar_enemigo((1,2)), false);
+        let pieza = Alfil::new(1, 1);
+        assert_eq!(pieza.puedo_atacar_enemigo((1, 2)), false);
     }
 }

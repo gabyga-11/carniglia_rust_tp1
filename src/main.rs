@@ -1,6 +1,6 @@
 mod archivo;
-mod errors;
-mod juego;
+pub mod errors;
+pub mod juego;
 use errors::TypeError;
 
 fn main() {

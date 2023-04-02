@@ -27,20 +27,19 @@ impl AnalisisAtaque for Rey {
     }
 }
 
-
 #[cfg(test)]
 mod tests {
     use crate::juego::piezas::{rey::Rey, AnalisisAtaque};
     #[test]
     fn puedo_atacar_enemigo_rey() {
-        let mut pieza = Rey::new(4,4);
-        assert_eq!(pieza.puedo_atacar_enemigo((3,3)), true);
-        pieza = Rey::new(6,6);
-        assert_eq!(pieza.puedo_atacar_enemigo((7,6)), true);
+        let mut pieza = Rey::new(4, 4);
+        assert_eq!(pieza.puedo_atacar_enemigo((3, 3)), true);
+        pieza = Rey::new(6, 6);
+        assert_eq!(pieza.puedo_atacar_enemigo((7, 6)), true);
     }
     #[test]
     fn no_puedo_atacar_enemigo_rey() {
-        let pieza = Rey::new(1,1);
-        assert_eq!(pieza.puedo_atacar_enemigo((3,2)), false);
+        let pieza = Rey::new(1, 1);
+        assert_eq!(pieza.puedo_atacar_enemigo((3, 2)), false);
     }
 }
