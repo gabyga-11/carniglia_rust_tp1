@@ -1,6 +1,6 @@
 use std::process::exit;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum TypeError {
     NombreDeArchivoInvalido,
     AperturaDeArchivoInvalida,
@@ -18,7 +18,7 @@ pub enum TypeError {
 pub fn catch(tipo: TypeError) {
     let mensaje_error = obtener_mensaje_personalizado(tipo);
     println!("ERROR: {}", mensaje_error);
-    exit(-1);
+    exit(1);
 }
 
 fn obtener_mensaje_personalizado(tipo: TypeError) -> String {

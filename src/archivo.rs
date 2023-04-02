@@ -4,6 +4,7 @@ use std::{
     io::ErrorKind,
 };
 
+#[derive(PartialEq, Debug)]
 pub struct FileHandler {
     path: String,
     tablero: [[char; 8]; 8],
@@ -23,7 +24,6 @@ impl FileHandler {
 
     pub fn leer(&mut self) -> Result<(), TypeError> {
         let contenido = self.leer_archivo_completo(self.path.as_str())?;
-
         self.contenido_archivo_es_correcto(&contenido)?;
 
         for (indice_linea, linea) in contenido.lines().enumerate() {
@@ -62,15 +62,15 @@ impl FileHandler {
                     return Err(TypeError::ArchivoConFormatoDeEspaciosIncorrecta);
                 } else if linea.matches('_').count() < 6 || linea.matches('_').count() > 8 {
                     return Err(TypeError::ArchivoConCantidadDeCasillerosVaciosIncorrecta);
-                } else if contenido_archivo.matches('_').count() != 62 {
-                    return Err(TypeError::CantidadDePiezasIncorrecta);
                 }
-
                 for (indice_letra, letra) in linea.char_indices() {
                     if indice_letra % 2 != 0 && letra != ' ' {
                         return Err(TypeError::ArchivoConFormatoDeEspaciosImparesIncorrecta);
                     }
                 }
+            }
+            if contenido_archivo.matches('_').count() != 62 {
+                return Err(TypeError::CantidadDePiezasIncorrecta);
             }
             Ok(())
         }
@@ -79,4 +79,82 @@ impl FileHandler {
     pub fn dar_tablero_procesado(self) -> [[char; 8]; 8] {
         self.tablero
     }
+}
+
+#[test]
+fn test_new() {
+    let args: Vec<String> = [
+        String::from("target/debug/rust_tp1_carniglia"),
+        String::from("tablero.txt"),
+    ]
+    .to_vec();
+    let fh_ok = FileHandler {
+        path: String::from("src/tablero.txt"),
+        tablero: [[' '; 8]; 8],
+    };
+    assert_eq!(FileHandler::new(args), fh_ok);
+}
+
+#[test]
+fn test_leer_ok() {
+    let mut fh_ok = FileHandler {
+        path: String::from("src/table.txt"),
+        tablero: [[' '; 8]; 8],
+    };
+    assert_eq!(fh_ok.leer(), Ok(()));
+}
+
+#[test]
+fn test_leer_err() {
+    let mut fh_err = FileHandler {
+        path: String::from("src/tablerito.txt"),
+        tablero: [[' '; 8]; 8],
+    };
+    assert_eq!(fh_err.leer(), Err(TypeError::NombreDeArchivoInvalido));
+}
+
+#[test]
+fn test_contenido_archivo_es_correcto() {
+    let fh_ok = FileHandler {
+        path: String::from(""),
+        tablero: [[' '; 8]; 8],
+    };
+    let mut contenido = "_ _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ P _ _ _\n_ _ _ _ _ p _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _";
+    assert_eq!(fh_ok.contenido_archivo_es_correcto(contenido), Ok(()));
+
+    contenido = "_ _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ P _ _ _\n_ _ _ _ _ p _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _";
+    assert_eq!(
+        fh_ok.contenido_archivo_es_correcto(contenido),
+        Err(TypeError::TamanioDeTableroIncorrecto)
+    );
+
+    contenido = "_ _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ P _ _ _\n_ _ _ _ _ p _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _";
+    assert_eq!(
+        fh_ok.contenido_archivo_es_correcto(contenido),
+        Err(TypeError::TamanioDeTableroIncorrecto)
+    );
+
+    contenido = "_ _ _ _ _ _ _ _\n_ _ _ _ _  _ _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ P _ _ _\n_ _ _ _ _ p _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _";
+    assert_eq!(
+        fh_ok.contenido_archivo_es_correcto(contenido),
+        Err(TypeError::ArchivoConFormatoDeEspaciosIncorrecta)
+    );
+
+    contenido = "_ _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _a_\n_ _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ P _ _ _\n_ _ _ _ _ p _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _";
+    assert_eq!(
+        fh_ok.contenido_archivo_es_correcto(contenido),
+        Err(TypeError::ArchivoConCantidadDeCasillerosVaciosIncorrecta)
+    );
+
+    contenido = "_ _ _ _ r _ _ _\n_ _ _ _ a _ _ _\np _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ P _ _ _\n_ _ _ _ _ p _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _";
+    assert_eq!(
+        fh_ok.contenido_archivo_es_correcto(contenido),
+        Err(TypeError::CantidadDePiezasIncorrecta)
+    );
+
+    contenido = "_ _ _ _ r _ _qweriuywqegri _\n_ _ _ _ a _ _ _\np _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ P _ _ _\n_ _ _ _ _ p _ _\n_ _ _ _ _ _ _ _\n_ _ _ _ _ _ _ _";
+    assert_eq!(
+        fh_ok.contenido_archivo_es_correcto(contenido),
+        Err(TypeError::ArchivoConFormatoDeEspaciosImparesIncorrecta)
+    );
 }
