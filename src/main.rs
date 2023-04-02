@@ -1,7 +1,5 @@
 mod archivo;
-pub mod errors;
-pub mod juego;
-use errors::TypeError;
+use rust_tp1_carniglia::{juego, errors::{self, TypeError}};
 
 fn main() {
     let tablero = procesar_lectura();
@@ -12,7 +10,7 @@ fn main() {
 }
 
 /// Extrae el nombre del archivo ingresado por consola.
-/// Lee contenido del archivo.
+/// cleaLee contenido del archivo.
 /// Retorna una matriz de chars de 8 x 8,
 /// con los caracteres ingresados por archivo.
 pub fn procesar_lectura() -> [[char; 8]; 8] {
