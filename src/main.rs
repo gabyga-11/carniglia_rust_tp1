@@ -1,8 +1,7 @@
-mod archivo;
-use rust_tp1_carniglia::{
-    errors::{self, TypeError},
-    juego,
-};
+use errors::TypeError;
+pub mod errors;
+pub mod juego;
+pub mod archivo;
 
 fn main() {
     let tablero = procesar_lectura();

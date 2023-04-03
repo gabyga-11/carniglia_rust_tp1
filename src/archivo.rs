@@ -107,7 +107,7 @@ impl FileHandler {
             Ok(())
         }
     }
-    ////Retorna el atributo tablero
+    /// Retorna el atributo tablero
     pub fn dar_tablero_procesado(self) -> [[char; 8]; 8] {
         self.tablero
     }
