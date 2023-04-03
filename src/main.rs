@@ -1,7 +1,7 @@
 use errors::TypeError;
+pub mod archivo;
 pub mod errors;
 pub mod juego;
-pub mod archivo;
 
 fn main() {
     let tablero = procesar_lectura();
